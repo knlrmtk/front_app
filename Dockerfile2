@@ -1,11 +1,12 @@
 ### STAGE 1: Build ###
-FROM node:latest as build
+FROM node:latest as angular
 WORKDIR /usr/local/app
 COPY ./ /usr/local/app/
 RUN npm install
-CMD /bin/sh npm run build
+#CMD /bin/sh npm run build
+RUN npm run ng build
 
 ### STAGE 2: Run ###
 FROM nginx:latest
-COPY --from=build /usr/local/app/dist/* /usr/share/nginx/html
+COPY --from=angular /usr/local/app/dist/* /usr/share/nginx/html
 EXPOSE 80
